@@ -74,7 +74,7 @@
                                             echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Competences</a>';
                                             break;
                                         case "edit":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Edite Competence</a>';
+                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Edit Competence</a>';
                                             break;
                                         case "list_cat":
                                             echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Categories Competences</a>';
@@ -144,10 +144,10 @@
                                             include_once 'modules/collab/forms/addcollab.html';
                                             break;
                                         case "list":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Collaborateurs</a>';
+                                            include_once 'modules/collab/forms/listcollab.html';
                                             break;
                                         case "edit":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Edit Collaborateur</a>';
+                                            include_once 'modules/collab/forms/editcollab.php';
                                             break;
                                         default :
                                             break;

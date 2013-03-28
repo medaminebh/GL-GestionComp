@@ -107,6 +107,8 @@
 
 	<!-- Custom jquery scripts -->
         <script type="text/javascript"  src="js/jquery/custom_jquery.js" ></script>
+
+        <script type="text/javascript"  src="js/jquery/jquery.cookie.js" ></script>
         
 	<!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
         <script type="text/javascript"  src="js/jquery/jquery.pngFix.pack.js"></script>

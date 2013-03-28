@@ -78,6 +78,16 @@ final class UserDAO implements IUserDAO {
         // return User
     }*/
 
+    /*public  function getUserInfo($id){
+        $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $this->cnx->prepare("SELECT * FROM user where id_user= :id ");
+        $stmt->bindValue(':id', $id);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        $arrValues = $stmt->fetchAll();
+        return $arrValues;
+    }*/
+
     public function findUser($user){
         // return boolean
         $exist = false;
@@ -120,9 +130,24 @@ final class UserDAO implements IUserDAO {
         }
     }
 
-    /*public function selectUsers($filtre){
+    public function selectUsers($users_filtre, $limit = ""){
         // return array of Users
-    }*/
+        try {
+            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $this->cnx->prepare(selectQuery($users_filtre, $this->table).$limit);
+            bindValQuery($users_filtre, $this->table, $stmt);
+            $stmt->execute();
+            $users = $stmt->fetchAll();
+
+            $stmt->closeCursor();
+
+            return $users;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return $user;
+        }
+    }
 
 }
 ?>
