@@ -1,5 +1,12 @@
 <?php
 
+//include config
+include("../../../../config/config.php");
+
+if($_SESSION['c_user']->privilege != 0) {
+    header("Location: index.html");
+}
+
 require_once "../../../../class/business/User.php";
 
 
@@ -116,9 +123,6 @@ if(isset($_POST['submit'])) {
     $user = new User($user);
 
     define('fromajax',true);
-
-    //include config
-    include("../../../../config/config.php");
 
     //UserDAO.class.php requires
     require_once "../../../../class/business/User.php";

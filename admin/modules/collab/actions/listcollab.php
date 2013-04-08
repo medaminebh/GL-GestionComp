@@ -1,11 +1,19 @@
-<?php 
+<?php
+
+    //include config
+    include("../../../../config/config.php");
+
+    if($_SESSION['c_user']->privilege != 0) {
+        header("Location: index.html");
+    }
+    
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
+
     require_once "../../../../class/business/User.php";
 
     $users_filtre = new User(array('privilege' => 2));
     define('fromajax',true);
-
-    //include config
-    include("../../../../config/config.php");
 
     //UserDAO.class.php requires
     require_once "../../../../class/business/User.php";
@@ -40,6 +48,7 @@
             echo "<collab_hire_date>".$collab["hire_date"]."</collab_hire_date>";
             echo "<collab_last_login>".$collab["last_login"]."</collab_last_login>";
             echo "<collab_expire_date>".$collab["expire_date"]."</collab_expire_date>";
+            echo "<collab_state>".(($collab["active"] == 1) ? "actived" : "inativated")."</collab_state>";
         echo "</collab>\n";
      }
      echo "</collabs>\n";

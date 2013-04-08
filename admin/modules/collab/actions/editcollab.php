@@ -1,230 +1,208 @@
-
-<?php 
-	include_once(DAO_PATH. "/UserDAO.class.php" );
-?>
-<!-- Start: page-top-outer -->
-<!-- <div id="page-top-outer">
-
-
-</div> -->
-<!-- End: page-top-outer -->
-
 <?php
-$usr = new UserDAO;
-$arrValues=$usr->getUserInfo($_GET['id']);
-foreach ($arrValues as $row){
+
+//include config
+include("../../../../config/config.php");
+
+if($_SESSION['c_user']->privilege != 0) {
+    header("Location: index.html");
+}
+
+require_once "../../../../class/business/User.php";
+
+if (isset($_COOKIE['usertoedit']) && is_numeric($_COOKIE['usertoedit']) && intval($_COOKIE['usertoedit']) > 0) {
+
+    $user = new User(array('id_user' => htmlspecialchars(intval($_COOKIE['usertoedit']))));
+    setcookie('usertoedit', null, -3600, '/');
+    unset($_COOKIE['usertoedit']);
+
+    define('fromajax', true);
+
+    //UserDAO.class.php requires
+    require_once "../../../../class/business/User.php";
+    require_once "../../../../lib/functions.php";
+    require_once "../../../../class/dao/IUserDAO.interface.php";
+
+    //DAOFactroy.class.php requires
+    require_once "../../../../class/technique/Singleton.class.php";
+
+    require_once "../../../../class/dao/DAOFactory.class.php";
+
+    $collab = DAOFactory::getDAOFactory()->getUserDAO()->selectUser($user);
+    if ($collab) {
+        header("Content-type: text/xml");
+        echo "<?xml version='1.0' encoding='utf-8'?>\n";
+        echo "<collabs>\n";
+        echo "<collab>\n";
+        echo "<collab_id_user>" . $collab->id_user . "</collab_id_user>";
+        echo "<collab_login>" . $collab->login . "</collab_login>";
+        echo "<collab_pwd>" . $collab->pwd . "</collab_pwd>";
+        echo "<collab_email>" . $collab->email . "</collab_email>";
+        echo "<collab_id_service>" . $collab->id_service . "</collab_id_service>";
+        echo "<collab_privilege>" . $collab->privilege . "</collab_privilege>";
+        echo "<collab_state>" . $collab->active . "</collab_state>";
+        echo "<collab_nom>" . $collab->nom_user . "</collab_nom>";
+        echo "<collab_prenom>" . $collab->prenom_user . "</collab_prenom>";
+        echo "<collab_genre>" . $collab->genre . "</collab_genre>";
+        echo "<collab_date_naiss>" . $collab->date_naiss . "</collab_date_naiss>";
+        echo "<collab_etat_civil>" . $collab->etat_civil . "</collab_etat_civil>";
+        echo "<collab_adresse>" . $collab->adresse . "</collab_adresse>";
+        echo "<collab_tel_mobile>" . $collab->tel_mobile . "</collab_tel_mobile>";
+        echo "<collab_diplome>" . $collab->diplome . "</collab_diplome>";
+        echo "<collab_annee_dip>" . $collab->annee_dip . "</collab_annee_dip>";
+        echo "<collab_expire_date>" . date("Y-m-d", strtotime($collab->expire_date)) . "</collab_expire_date>";
+        echo "</collab>\n";
+        echo "</collabs>\n";
+    }
+} else if (isset($_POST['submit'])) {
+    $user = array();
+
+    if (isset($_POST['id_user']) && is_numeric($_POST['id_user']) && intval($_POST['id_user']) > 0) {
+        $user['id_user'] = intval($_POST['id_user']);
+    } else {
+        echo "id_user";
+        die();
+    }
+    
+    if (isset($_POST['login'])) {
+        $user['login'] = $_POST['login'];
+    } else {
+        echo "login";
+        die();
+    }
+
+    if (isset($_POST['pwd1']) && isset($_POST['pwd2']) && ($_POST['pwd1'] == $_POST['pwd2'])) {
+        $user['pwd'] = $_POST['pwd1'];
+    } else {
+        echo "pwd";
+        die();
+    }
+
+    if (isset($_POST['email'])) {
+        $user['email'] = $_POST['email'];
+    } else {
+        echo "email";
+        die();
+    }
+
+    if (isset($_POST['nom'])) {
+        $user['nom_user'] = $_POST['nom'];
+    } else {
+        echo "nom";
+        die();
+    }
+
+    if (isset($_POST['prenom'])) {
+        $user['prenom_user'] = $_POST['prenom'];
+    } else {
+        echo "prenom";
+        die();
+    }
+
+    if (isset($_POST['genre'])) {
+        $user['genre'] = $_POST['genre'];
+    } else {
+        echo "genre";
+        die();
+    }
+
+    if (isset($_POST['id-service']) && is_numeric($_POST['id-service']) && intval($_POST['id-service']) > 0) {
+        $user['id_service'] = intval($_POST['id-service']);
+    } else {
+        echo "id-service";
+        die();
+    }
+
+    if (isset($_POST['privilege']) && is_numeric($_POST['privilege']) && intval($_POST['privilege']) >= 0 && intval($_POST['privilege']) <= 2) {
+        $user['privilege'] = intval($_POST['privilege']);
+    } else {
+        echo "privilege";
+        die();
+    }
+
+    if (isset($_POST['date_naiss'])) {
+        $user['date_naiss'] = $_POST['date_naiss'];
+    } else {
+        echo "date_naiss";
+        die();
+    }
+
+    if (isset($_POST['etat_civil'])) {
+        $user['etat_civil'] = $_POST['etat_civil'];
+    } else {
+        echo "etat_civil";
+        die();
+    }
+
+    if (isset($_POST['adresse'])) {
+        $user['adresse'] = $_POST['adresse'];
+    } else {
+        echo "adresse";
+        die();
+    }
+
+    if (isset($_POST['tel_mobile']) && is_numeric($_POST['tel_mobile'])) {
+        $user['tel_mobile'] = $_POST['tel_mobile'];
+    } else {
+        echo "tel_mobile";
+        die();
+    }
+
+    if (isset($_POST['diplome'])) {
+        $user['diplome'] = $_POST['diplome'];
+    } else {
+        echo "diplome";
+        die();
+    }
+
+    if (isset($_POST['annee_dip']) && is_numeric($_POST['annee_dip'])) {
+        $user['annee_dip'] = intval($_POST['annee_dip']);
+    } else {
+        echo "annee_dip";
+        die();
+    }
+
+    if (isset($_POST['state']) && is_numeric($_POST['state'])) {
+        $user['active'] = intval($_POST['state']);
+    } else {
+        echo "state";
+        die();
+    }
+
+    if (isset($_POST['expire_date'])) {
+        $user['expire_date'] = date("Y-m-d H:i:s", strtotime($_POST['expire_date']));
+    } else {
+        echo "expire_date";
+        die();
+    }
+
+    $user = new User($user);
+    $default = array('id_user' => intval($_POST['id_user']));
+    $default = new User($default);
+
+    define('fromajax', true);
+
+    //UserDAO.class.php requires
+    require_once "../../../../class/business/User.php";
+    require_once "../../../../lib/functions.php";
+    require_once "../../../../class/dao/IUserDAO.interface.php";
+
+    //DAOFactroy.class.php requires
+    require_once "../../../../class/technique/Singleton.class.php";
+
+    require_once "../../../../class/dao/DAOFactory.class.php";
+
+    $selected = DAOFactory::getDAOFactory()->getUserDAO()->selectUser($default);
+    if($_POST['pwd1'] == $selected->pwd) {
+        $user->setPwd($_POST['pwd1']);
+    }
+    $result = DAOFactory::getDAOFactory()->getUserDAO()->updateUser($user);
+
+    if ($result) {
+        echo "1";
+    } else {
+        echo "0";
+    }
+} else {
+    die();
+}
 ?>
-
-<div class="clear">&nbsp;</div>
-
-<!-- start content-outer -->
-<div id="content-outer">
-    <!-- start content -->
-    <div id="content">
-        <div id="page-heading"><h1>Modifier Collaborateur</h1></div>
-            <div id="container">
-
-                <div style="float: left;" class="loader"><img src="images/ajax-loader.gif" alt="Loading..." title="Loading..." id="loading" style="display:none" /></div><div style="float: left; margin-left:5px;" id="info"><p>Veuillez remplir le formulaire pour l'ajout d'un Collaborateur ..</p><br /></div>
-                <div class="clear">&nbsp;</div>
-                <img src="images/arrow-right.jpg" alt="Add This" title="Add This .." id="arrow-right" style="float:right;float: right; display: none; margin: 15px 50px 0 0;" />
-                <a href="index.php?module=collab&option=add" class="addnew" id="addnew" style="display: none;">Ajouter un autre Collaborateur</a>
-                <!-- start id-form -->
-                    <form id="add-collab" action="./admin/modules/collab/actions/addcollab.php" method="POST">
-                        <fieldset style="float: left; padding: 10px 10px 0 10px;">
-                            <legend style="color: red;">Account Information</legend>
-                            <table border="0" cellpadding="" cellspacing="" class="id-form">
-                                <tbody>
-                                    <tr>
-                                        <th valign="top">Login :</th>
-                                        <td><input name="login" type="text" value="<?php echo $row["login"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Password :</th>
-                                        <td><input name="pwd1" type="password" value="<?php echo $row["pwd"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Retype Password :</th>
-                                        <td><input name="pwd2" type="password" value="<?php echo $row["pwd"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">E-Mail :</th>
-                                        <td><input name="email" type="email" value="<?php echo $row["email"]?>" required="required" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Service :</th>
-                                        <td><input name="id-service" type="text" value="<?php echo $row["id_service"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Account State :</th>
-                                        
-                                        
-                                        <td><div style="float: left;">
-													
-												<input name="state" type="radio" value="1" id="active_acc" required="required" <?php if($row["active"]=='1'){?>checked<?php }?> />&nbsp; <label class="radio-label" for="active_acc"><b>Active</b></label>
-												</div>
-											<div style="float:left; margin-left: 20px;">
-												<input name="state" type="radio" value="0" required="required" id="inactive_acc"<?php if($row["active"]=='0'){?>checked<?php }?> />&nbsp <label class="radio-label" for="inactive_acc"><b>Inactive</b></label>
-											</div>											
-											
-										</td>
-                                        
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                         </fieldset>
-                        <fieldset style="float: right; padding: 10px 10px 0 10px;" class="sectionwrap">
-                            <legend style="color: red">Contact Information</legend>
-                            <table border="0" cellpadding="" cellspacing="" class="id-form">
-                                <tbody>
-                                    <tr>
-                                        <th valign="top">Nom :</th>
-                                        <td><input name="nom" value="<?php echo $row["nom_user"]?>" type="text" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Prenom :</th>
-                                        <td><input name="prenom" type="text" value="<?php echo $row["prenom_user"]?>"  required="required"/></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Genre :</th>
-                                        <td><div style="float: left;"><input name="genre" type="radio" value="Homme" required="required" id="male-gender" <?php if($row["genre"]=='homme'){?>checked<?php }?>/>&nbsp; <label class="radio-label" for="male-gender"><b>Homme</b></label></div><div style="float:left; margin-left: 20px;"><input name="genre" type="radio" value="Femme" required="required" id="femal-gender" <?php if($row["genre"]=='femme'){?>checked<?php }?> />&nbsp <label class="radio-label" for="femal-gender"><b>Femme</b></label></div></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Date de naissance :</th>
-                                        <td><input name="date_naiss" type="date" value="<?php echo $row["date_naiss"]?>"  required="required"/></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Etat Civil :</th>
-                                        <td><input name="etat_civil" type="text" value="<?php echo $row["etat_civil"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Adresse :</th>
-                                        <td><textarea name ="adresse" rows="3" cols="" value="<?php echo $row["adresse"]?>" class="form-textarea" required="required"></textarea></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">N° Telephone :</th>
-                                        <td><input name="ntel" type="tel" value="<?php echo $row["tel_mobile"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th valign="top">Diplôme :</th>
-                                        <td><input name="diplome" type="text" value="<?php echo $row["diplome"]?>" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                         </fieldset>
-                        <fieldset style="width: 337px; padding: 10px 10px 0 10px;" class="sectionwrap">
-                            <legend style="color: red">Professional Information</legend>
-                            <table border="0" cellpadding="" cellspacing="" class="id-form">
-                                <tbody>
-                                    <tr>
-                                        <th valign="top">Année du Diplôme :</th>
-                                        <td><input name="annee_dip" value="<?php echo $row["annee_dip"]?>" type="date" required="required" /></td>
-                                        <td></td>
-                                    </tr>
-                                    <!-- <tr>
-                                        <th valign="top">Hire Date :</th>
-                                        <td><input name="hire" type="date" required="required" /></td>
-                                        <td></td>
-                                    </tr> -->
-                                </tbody>
-                            </table>
-                        </fieldset>
-                        <?php }?>
-                        <input type="hidden" name="privilege" value="2" />
-                        <input type="submit" style="float: right; margin: 35px 50px 0px 15px; width: 100px;color: green;font-weight: bold;cursor: pointer;" value="Modifier" />
-                        <input type="reset" value="" style="float: right; margin: 34px 0 0 0;" id="reset" class="form-reset" />
-                    </form>
-                <!-- end id-form  -->
-                <div class="clear">&nbsp;</div>
-            </div>
-        </div>
-        <!--  end content -->
-        <div class="clear">&nbsp;</div>
-</div>
-<script type="text/javascript">
-$('#add-collab').submit(function(){
-//$('#reset').click(function(){
-        $("#info").fadeOut("fast", function(){$("#info").text("Processing ...")}).fadeIn("slow");
-	$("#add-collab").fadeOut("fast", function(){$("#loading").fadeIn("normal");});
-        $("#content-outer").height($("#sidebar").height());
-        var collab = new Array(
-                    $("input[name=login]").val(),
-                    $("input[name=pwd1]").val(),
-                    $("input[name=pwd2]").val(),
-                    $("input[name=email]").val(),
-                    $("input[name=id-service]").val(),
-                    $("input[name=state]:checked").val(),
-                    $("input[name=nom]").val(),
-                    $("input[name=prenom]").val(),
-                    $("input[name=genre]:checked").val(),
-                    $("input[name=date_naiss]").val(),
-                    $("input[name=etat_civil]").val(),
-                    $("input[name=adresse]").val(),
-                    $("input[name=ntel]").val(),
-                    $("input[name=diplome]").val(),
-                    $("input[name=annee_dip]").val()
-                );
-    var dataString = 'login='+ collab[0]
-                     + '&pwd1=' + collab[1]
-                     + '&pwd2=' + collab[2]
-                     + '&email=' + collab[3]
-                     + '&id-service=' + collab[4]
-                     + '&state=' + collab[5]
-                     + '&nom=' + collab[6]
-                     + '&prenom=' + collab[7]
-                     + '&genre=' + collab[8]
-                     + '&date_naiss=' + collab[9]
-                     + '&etat_civil=' + collab[10]
-                     + '&adresse=' + collab[11]
-                     + '&tel_mobile=' + collab[12]
-                     + '&diplome=' + collab[13]
-                     + '&annee_dip=' + collab[14]
-                     ;
-
-	$.ajax({
-		type: "POST",
-		url: "admin/modules/collab/actions/addcollab.php",
-		data: dataString,
-		cache: false,
-		success: function (a) {
-			if (a == 1) {
-                                $("#loading").hide();
-                                $("#info").fadeOut("fast", function(){$("#info").html("<p style=\"color: green;\">Un nouveau compte Collaborateur vient d'etre ajouté.</p>")}).fadeIn("normal", function(){$("#addnew").fadeIn("slow");$("#arrow-right").fadeIn("slow");});
-			} else {
-				$("#loading").hide();
-                                $("#info").fadeOut("fast", function(){$("#info").html("<p style=\"color: red;\">Une erreure est survenue !</p>")}).fadeIn("normal");
-			}
-		}
-	});
-});
-</script>
-<script type="text/javascript">
-$('#form').submit(function(){
-
-    $.ajax({
-      type: "POST",
-      url: "",
-      data: dataString,
-      success: function(data) {
-        $("#display").html(data).hide();
-	$('#display').fadeIn("slow");
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "js/login_submit.js";
-        $("head").append(script);
-      }
-    });
-    return false;
-});
-</script>

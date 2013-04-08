@@ -80,7 +80,7 @@ final class Authentification {
                     $c_user = null;
                     $errMsg = '<script type="text/javascript">
 			$(document).ready(function(){
-				jError(\'Your account is inactive!\',
+				jError(\'Your account is desactivated!\',
 					{
 					autoHide : true, // added in v2.0
 					TimeShown : 5000,

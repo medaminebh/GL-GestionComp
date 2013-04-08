@@ -39,7 +39,7 @@ final class DAOFactory {
     }
 
     public function getUserDAO() {
-        // CloudscapeCustomerDAO implements CustomerDAO
+        // UserDAO implements IUserDAO
         return UserDAO::getUserDAO();
     }
 }

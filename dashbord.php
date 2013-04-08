@@ -19,7 +19,7 @@ switch($_SESSION['c_user']->privilege) {
         include MANAGER_PATH.'/index.php';
         break;
     case 2:
-        include MANAGER_PATH.'/index.php';
+        include COLLAB_PATH.'/index.php';
         break;
     default :
         include 'logout.php';

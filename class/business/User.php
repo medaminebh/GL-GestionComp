@@ -38,6 +38,9 @@ class User{
   // Constructeurs
 
     function __construct($user = array()){
+            if(isset($user['id_user'])) {
+                $this->user['id_user'] = htmlspecialchars(intval($user['id_user']));
+            }
             $this->user['login'] = isset($user['login'])? htmlspecialchars($user['login']) : '' ;
             $this->user['pwd'] = isset($user['pwd'])? md5(htmlspecialchars($user['pwd'])) : '' ;
             $this->user['email'] = isset($user['email'])? htmlspecialchars($user['email']) : '' ;
@@ -148,7 +151,7 @@ class User{
         }
 
         public function setPwd($pwd){
-            $this->user['pwd'] = md5(htmlspecialchars($pwd));
+            $this->user['pwd'] = htmlspecialchars($pwd);
         }
 
         public function setEmail($email){

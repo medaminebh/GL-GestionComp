@@ -42,6 +42,9 @@
                                         case "edit":
                                             echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Edit Collaborateur</a>';
                                             break;
+                                        case "delete":
+                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Delete Collaborateur</a>';
+                                            break;
                                         default :
                                             break;
                                     }
@@ -147,7 +150,10 @@
                                             include_once 'modules/collab/forms/listcollab.html';
                                             break;
                                         case "edit":
-                                            include_once 'modules/collab/forms/editcollab.php';
+                                            include_once 'modules/collab/forms/editcollab.html';
+                                            break;
+                                        case "delete":
+                                            include_once 'modules/collab/forms/deletecollab.html';
                                             break;
                                         default :
                                             break;

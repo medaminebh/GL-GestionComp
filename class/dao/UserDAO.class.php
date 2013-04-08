@@ -70,23 +70,51 @@ final class UserDAO implements IUserDAO {
         }
     }
 
-    /*public function deleteUser($id){
+    public function deleteUser($user){
         // return boolean
-    }*/
+        $deleted = false;
+        try {
+            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $this->cnx->prepare(deleteQuery($user, $this->table));
+            bindValQuery($user, $this->table, $stmt);
 
-    /*public function updateUser($user){
-        // return User
-    }*/
+            if($stmt->execute()) {
+                $deleted = true;
+            }
 
-    /*public  function getUserInfo($id){
-        $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $this->cnx->prepare("SELECT * FROM user where id_user= :id ");
-        $stmt->bindValue(':id', $id);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
-        $arrValues = $stmt->fetchAll();
-        return $arrValues;
-    }*/
+            $stmt->closeCursor();
+            return $deleted;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return $deleted;
+        }
+    }
+
+    public function updateUser($user){
+        // return boolean
+        $updated = false;
+        $test_exist_user = new User(array('id_user' => $user->getId_User()));
+        if($this->findUser($test_exist_user)) {
+            try {
+                $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $stmt = $this->cnx->prepare(updateQuery($user, $this->table));
+                bindValQuery($user, $this->table, $stmt);
+
+                if($stmt->execute()) {
+                    $updated = true;
+                }
+
+                $stmt->closeCursor();
+
+                return $updated;
+
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                return $updated;
+            }
+        }
+    }
 
     public function findUser($user){
         // return boolean
