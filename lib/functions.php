@@ -201,6 +201,53 @@ function selectQuery($obj, $table){
             }
         }
         break;
+		
+		 case "competence":
+        $id_competence = intval($obj->getId_Competence());
+        $competence = array(
+                    'id_competence' => isset($id_competence) ? $id_competence : 0,
+                    'nom_competence' => $obj->getNomCompetence(),
+                    'description_competence' => $obj->getDescCompetence(),
+                    'niveau' => $obj->getNiveau()
+                    );
+            $first = false;
+
+        $sql = "SELECT * FROM ".$table;
+
+        if(isset($competence['id_competence']) && !empty($competence['id_competence']) && intval($competence['id_competence']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_competence = :id_competence';
+        }
+
+        if(isset($competence['nom_competence']) && !empty($competence['nom_competence'])){
+            if($first){
+                $sql.= ' AND nom_competence = :nom_competence';
+            } else {
+                $sql.= ' WHERE nom_competence = :nom_competence';
+                $first = true;
+            }
+        }
+        
+        if(isset($competence['description_competence']) && !empty($competence['description_competence'])){
+            if($first){
+                $sql.= ' AND description_competence = :description_competence';
+            } else {
+                $sql.= ' WHERE description_competence = :description_competence';
+                $first = true;
+            }
+        }
+
+        if(isset($competence['niveau']) && !empty($competence['niveau'])){
+            if($first){
+                $sql.= ' AND niveau = :niveau';
+            } else {
+                $sql.= ' WHERE niveau = :niveau';
+                $first = true;
+            }
+        }
+
+       break;
+	   
     default :
         break;
     }
@@ -236,6 +283,20 @@ function insertQuery($obj, $table){
         $sql.= ' (login, pwd, email, nom_user, prenom_user, genre, hire_date, id_service, privilege, date_naiss, etat_civil, adresse, tel_mobile, diplome, annee_dip, last_login, expire_date, active)';
         $sql.= ' VALUES';
         $sql.= ' (:username, :password, :email, :nom_user, :prenom_user, :genre, :hire_date, :id_service, :privilege, :date_naiss, :etat_civil, :adresse, :tel_mobile, :diplome, :annee_dip, :last_login, :expire_date, :active)';
+        break;
+		
+		 case "competence":
+        $competence = array(
+                    'id_competence' => isset($id_competence) ? $id_competence : 0,
+                    'nom_competence' => $obj->getNomCompetence(),
+                    'description_competence' => $obj->getDescCompetence(),
+                    'niveau' => $obj->getNiveau()
+                    );
+
+        $sql = "INSERT INTO ".$table;
+        $sql.= ' (id_competence,nom_competence,description_competence,niveau)';
+        $sql.= ' VALUES';
+        $sql.= ' (:id_competence,:nom_competence,:description_competence,:niveau)';
         break;
     default :
         break;
@@ -414,6 +475,49 @@ function updateQuery($obj, $table){
 
         $sql.= " WHERE id_user = :id_user";
         break;
+		
+		case "competence":
+        $id_competence = intval($obj->getId_Competence());
+        $competence = array(
+                    'id_competence' => isset($id_competence) ? $id_competence : 0,
+                    'nom_competence' => $obj->getNomCompetence(),
+                    'description_competence' => $obj->getDescCompetence(),
+                    'niveau' => $obj->getNiveau()
+                    );
+            $first = false;
+
+        $sql = "Update ".$table;
+
+
+        if(isset($competence['nom_competence']) && !empty($competence['nom_competence'])){
+            if($first){
+                $sql.= ' nom_competence = :nom_competence,';
+            } else {
+                $sql.= ' SET nom_competence = :nom_competence,';
+                $first = true;
+            }
+        }
+        
+        if(isset($competence['description_competence']) && !empty($competence['description_competence'])){
+            if($first){
+                $sql.= ' description_competence = :description_competence,';
+            } else {
+                $sql.= ' SET description_competence = :description_competence,';
+                $first = true;
+            }
+        }
+
+        if(isset($competence['niveau']) && !empty($competence['niveau'])){
+            if($first){
+                $sql.= '  niveau = :niveau,';
+            } else {
+                $sql.= ' SET niveau = :niveau,';
+                $first = true;
+            }
+        }
+
+       break;
+	   
     default :
         break;
     }
@@ -607,6 +711,51 @@ function deleteQuery($obj, $table){
             }
         }
         break;
+		
+		case "competence":
+        $id_competence = intval($obj->getId_Competence());
+        $competence = array(
+                    'id_competence' => isset($id_competence) ? $id_competence : 0,
+                    'nom_competence' => $obj->getNomCompetence(),
+                    'description_competence' => $obj->getDescCompetence(),
+                    'niveau' => $obj->getNiveau()
+                    );
+		
+		$sql = "DELETE FROM ".$table;
+
+        if(isset($competence['id_competence']) && !empty($competence['id_competence']) && intval($competence['id_competence']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_competence = :id_competence';
+        }
+
+        if(isset($competence['nom_competence']) && !empty($competence['nom_competence'])){
+            if($first){
+                $sql.= ' AND nom_competence = :nom_competence';
+            } else {
+                $sql.= ' WHERE nom_competence = :nom_competence';
+                $first = true;
+            }
+        }
+
+        if(isset($competence['description_competence']) && !empty($competence['description_competence'])){
+            if($first){
+                $sql.= ' AND description_competence = :description_competence';
+            } else {
+                $sql.= ' WHERE description_competence = :description_competence';
+                $first = true;
+            }
+        }
+
+        if(isset($competence['niveau']) && !empty($competence['niveau'])){
+            if($first){
+                $sql.= ' AND niveau = :niveau';
+            } else {
+                $sql.= ' WHERE niveau= :niveau';
+                $first = true;
+            }
+        }
+		break;
+
     default :
         break;
     }
@@ -696,6 +845,28 @@ function bindValQuery($obj, $table, $stmt){
         if(isset($user['active']) && ($user['active'] == 0 || $user['active'] == 1))
         $stmt->bindValue(':active', $user['active'], PDO::PARAM_INT);
         break;
+		
+			case "competence":
+        $id_competence = intval($obj->getId_Competence());
+        $competence = array(
+                    'id_competence' => isset($id_competence) ? $id_competence : 0,
+                    'nom_competence' => $obj->getNomCompetence(),
+                    'description_competence' => $obj->getDescCompetence(),
+                    'niveau' => $obj->getNiveau()
+                    );
+		 if(isset($competence['id_competence']) && !empty($competence['id_competence']) && $competence['id_competence'] > 0 )
+        $stmt->bindValue(':id_competence', $competence['id_competence'], PDO::PARAM_INT);
+
+        if(isset($competence['nom_competence']) && !empty($competence['nom_competence']))
+        $stmt->bindParam(':nom_competence', $competence['nom_competence'], PDO::PARAM_STR);
+
+        if(isset($competence['description_competence']) && !empty($competence['description_competence']))
+        $stmt->bindParam(':description_competence', $competence['description_competence'], PDO::PARAM_STR);
+
+        if(isset($competence['niveau']) && !empty($competence['niveau']))
+        $stmt->bindValue(':niveau', $competence['niveau'], PDO::PARAM_STR);
+		break;
+					
     default :
         break;
     }
