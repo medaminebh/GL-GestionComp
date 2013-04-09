@@ -25,7 +25,7 @@
 
     <h3>Competences</h3>
     <ul class="toggle">
-        <li class="icn_new_article"><a href="ajouterCompetence">Ajouter competence</a></li>
+        <li class="icn_new_article"><a href="index.php?module=competence&option=add">Ajouter competence</a></li>
         <li class="icn_edit_article"><a href="#">Modifier competence</a></li>
         <li class="icn_categories"><a href="#">Categories</a></li>
     </ul>
