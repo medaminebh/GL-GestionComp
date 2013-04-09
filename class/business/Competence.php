@@ -53,7 +53,7 @@ $this->__construct( $params );
     
 	// Setters
 
-	public function setId_Competence($id){
+		public function setId_Competence($id){
             $this->Competence['id_Competence'] = htmlspecialchars($id);
         }
 
@@ -67,9 +67,6 @@ $this->__construct( $params );
 
         public function setNiveau($niveau){
             $this->Competence['niveau'] = htmlspecialchars($niveau);
-        }
-
-	
-     
+        }   
 }
 ?>
