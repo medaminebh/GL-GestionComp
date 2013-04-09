@@ -1,3 +1,12 @@
+<?php 
+require_once("config/config.php");
+ require_once "class/business/Competence.php";
+ require_once "class/dao/CompetenceDAO.class.php";
+if( !(isset( $_POST['nom'] ) ) ) {
+
+
+?>
+
 <div class="clear">&nbsp;</div>
 
 <!-- start content-outer -->
@@ -78,6 +87,8 @@
  <tr>
 <td><img src="images/shared/blank.gif" width="695" height="1" alt="blank" /></td>
 <td></td>
+
+
 </tr>
 </table>
 
@@ -104,13 +115,11 @@
 
 <div class="clear">&nbsp;</div>
 <?php 
-require_once("config/config.php");
- require_once "class/business/Competence.php";
- require_once "class/dao/CompetenceDAO.class.php";
-$competence = new Competence($_POST['nom'], $_POST['desc'], null);
+}else{
+$competence = new Competence($_POST["nom"], $_POST["desc"], null);
 
 $comp = new CompetenceDAO();
 $comp->insertCompetence($competence);
 
-
+}
 ?>
