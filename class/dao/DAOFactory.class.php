@@ -4,16 +4,11 @@ require_once "class/technique/Singleton.class.php";
 }
 
 include_once "UserDAO.class.php";
+include_once "CompetenceDAO.class.php";
 
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
-
-/**
- * Description of MYSQLDAOFactory
- *
- * @author Med Amine
  */
 
 final class DAOFactory {
@@ -41,6 +36,11 @@ final class DAOFactory {
     public function getUserDAO() {
         // UserDAO implements IUserDAO
         return UserDAO::getUserDAO();
+    }
+	
+	public function getCompetenceDAO() {
+        // CompetenceDAO implements ICompetenceDAO
+        return CompetenceDAO::getCompetenceDAO();
     }
 }
 ?>

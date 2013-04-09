@@ -181,7 +181,7 @@
                                 if(isset($_GET['option'])){
                                     switch ($_GET['option']){
                                         case "add":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Add Competence</a>';
+                                            include_once 'modules/competences/forms/addcompetence.php';
                                             break;
                                         case "list":
                                             echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Competences</a>';
