@@ -208,13 +208,13 @@ function selectQuery($obj, $table){
                     'id_competence' => isset($id_competence) ? $id_competence : 0,
                     'nom_competence' => $obj->getNomCompetence(),
                     'description_competence' => $obj->getDescCompetence(),
-                    'niveau' => $obj->getNiveau()
+                    
                     );
             $first = false;
 
         $sql = "SELECT * FROM ".$table;
 
-        if(isset($competence['id_competence']) && !empty($competence['id_competence']) && intval($competence['id_competence']) > 0 ){
+        /*if(isset($competence['id_competence']) && !empty($competence['id_competence']) && intval($competence['id_competence']) > 0 ){
         $first = true;
         $sql.= ' WHERE id_competence = :id_competence';
         }
@@ -244,7 +244,7 @@ function selectQuery($obj, $table){
                 $sql.= ' WHERE niveau = :niveau';
                 $first = true;
             }
-        }
+        }*/
 
        break;
 	   

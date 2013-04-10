@@ -6,9 +6,9 @@
 	
 
 	//define some contstant
-    define( "DB_DSN", "mysql:host=localhost;port=3306;dbname=novatris" );
+    define( "DB_DSN", "mysql:host=localhost;port=3306;dbname=Novatrice" );
     define( "DB_USERNAME", "root" );
-    define( "DB_PASSWORD", "" );
+    define( "DB_PASSWORD", "azerty" );
     define( "CLS_PATH", "./class" );
     define( "DAO_PATH", CLS_PATH."/dao" );
     define( "TECH_PATH", CLS_PATH."/technique" );

@@ -53,50 +53,29 @@ final class CompetenceDAO implements ICompetenceDAO {
            
     }
 
-    public function deleteCompetence($competence){
-        // return boolean
-        $deleted = false;
-        try {
-            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $this->cnx->prepare(deleteQuery($competence, $this->table));
-            bindValQuery($competence, $this->table, $stmt);
+    public function deleteCompetence($id){
+        
+        $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD ); 
+	$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+	$sql = "delete from competence where id_competence=:id_competence;";
 
-            if($stmt->execute()) {
-                $deleted = true;
-            }
-
-            $stmt->closeCursor();
-            return $deleted;
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return $deleted;
-        }
+	$stmt = $con->prepare( $sql );
+	$stmt->bindValue( "id_competence", $id, PDO::PARAM_STR );
+	
+	$stmt->execute();
     }
 
-    public function updateCompetence($competence){
-        // return boolean
-        $updated = false;
-        $test_exist_competence = new Competence(array('id_competence' => $user->getId_Competence()));
-        if($this->findCompetence($test_exist_competence)) {
-            try {
-                $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $stmt = $this->cnx->prepare(updateQuery($competence, $this->table));
-                bindValQuery($competence, $this->table, $stmt);
+    public function updateCompetence($competence,$id){
+        
+        $con = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD ); 
+	$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+	$sql = "Update competence set nom_competence=:nom_competence,description_competence=:description_competence where id_competence=:id_competence";
 
-                if($stmt->execute()) {
-                    $updated = true;
-                }
-
-                $stmt->closeCursor();
-
-                return $updated;
-
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-                return $updated;
-            }
-        }
+	$stmt = $con->prepare( $sql );
+	$stmt->bindValue( "nom_competence", $competence->getNomCompetence(), PDO::PARAM_STR );
+	$stmt->bindValue( "description_competence", $competence->getDescCompetence(), PDO::PARAM_STR );
+	$stmt->bindValue( "id_competence", $id, PDO::PARAM_STR );
+	$stmt->execute();
     }
 
     public function findCompetence($competence){
@@ -122,42 +101,24 @@ final class CompetenceDAO implements ICompetenceDAO {
         }
     }
 
-    public function selectCompetence($competence){
-        // return User
-        try {
-            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $this->cnx->prepare(selectQuery($competence, $this->table)." LIMIT 1");
-            bindValQuery($competence, $this->table, $stmt);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_OBJ);
-            
-            $stmt->closeCursor();
-
-            return $competence;
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return $competence;
-        }
+    public function selectCompetence(){
+       	$this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $this->cnx->prepare("SELECT * FROM competence");
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$stmt->execute();
+		$arrValues = $stmt->fetchAll();
+		return $arrValues;
     }
 
-    public function selectCompetences($competences_filtre, $limit = ""){
-        // return array of Users
-        try {
-            $this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $this->cnx->prepare(selectQuery($competences_filtre, $this->table).$limit);
-            bindValQuery($competences_filtre, $this->table, $stmt);
-            $stmt->execute();
-            $users = $stmt->fetchAll();
-
-            $stmt->closeCursor();
-
-            return $competences;
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return $competence;
-        }
+    public function selectCompetences($id){
+       
+       	$this->cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $this->cnx->prepare("SELECT * FROM competence where id_competence=:id_competence");
+		$stmt->bindValue(':id_competence', $id);
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$stmt->execute();
+		$arrValues = $stmt->fetchAll();
+		return $arrValues;
     }
 
 }
