@@ -184,10 +184,13 @@
                                             include_once 'modules/competences/forms/addcompetence.php';
                                             break;
                                         case "list":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Competences</a>';
+                                            include_once 'modules/competences/forms/listcompetence.php';
                                             break;
                                         case "edit":
-                                            echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">Edite Competence</a>';
+                                            include_once 'modules/competences/forms/editcompetence.php';
+                                            break;
+                                         case "delete":
+                                            include_once 'modules/competences/forms/deletecompetence.php';
                                             break;
                                         case "list_cat":
                                             echo '<div class="breadcrumb_divider"></div> <a href="javascript:void(0);" class="current">List Categories Competences</a>';
