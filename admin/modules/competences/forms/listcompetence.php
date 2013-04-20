@@ -13,11 +13,11 @@ include_once(DAO_PATH. "/CompetenceDAO.class.php" );
 
 <!-- start page-heading -->
 <div id="page-heading">
-<h1>Les Collaborateurs </h1>
+<h1>Liste des competences </h1>
 </div>
 <!-- end page-heading -->
 
-<table border="0" width="80%" cellpadding="0" cellspacing="0" id="content-table">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" id="content-table">
 <tr>
 <th rowspan="3" class="sized"><img src="images/shared/side_shadowleft.jpg" width="20" height="300" alt="" /></th>
 <th class="topleft"></th>
@@ -32,6 +32,10 @@ include_once(DAO_PATH. "/CompetenceDAO.class.php" );
 <div id="content-table-inner">
 <!-- start table-content -->
 <div id="table-content">
+	<div style="float: left;" class="loader"><img src="images/ajax-loader.gif" alt="Loading..." title="Loading..." id="loading" style="display: none" /></div><div style="float: left; margin-left:5px; margin-bottom: 10px;" id="info"></div>
+                                <div class="clear">&nbsp;</div>
+                                <img src="images/arrow-right.jpg" alt="Add This" title="Add This .." id="arrow-right" style="float:right; display: none; opacity: .6; margin: 15px 50px 0 0;" />
+                                <a href="index.php?module=competence&option=add" class="addnew" id="addnew" style="left: 48%; display: none;">Ajouter un Collaborateur</a>
 <!-- start product-table ..................................................................................... -->
 <form id="mainform" action="">
 <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
@@ -39,7 +43,7 @@ include_once(DAO_PATH. "/CompetenceDAO.class.php" );
 <th class="table-header-repeat line-left minwidth-1"><a href="">Id</a> </th>
 <th class="table-header-repeat line-left minwidth-1"><a href="">Nom</a> </th>
 <th class="table-header-repeat line-left minwidth-1"><a href="">Description</a></th>
-<th class="table-header-repeat line-left minwidth-1"><a href="">Option</a></th>
+<th class="table-header-repeat line-left minwidth-1" style="color: black;"><a href="">Option</a></th>
 
 
 </tr>
@@ -67,37 +71,27 @@ foreach ($arrValues as $row){
 </form>
 </div>
 <!-- end content-table -->
-<!-- start actions-box ............................................... -->
-<div id="actions-box">
-<a href="" class="action-slider"></a>
-<div id="actions-box-slider">
-<a href="" class="action-edit">Edit</a>
-<a href="" class="action-delete">Delete</a>
-</div>
-<div class="clear"></div>
-</div>
-<!-- end actions-box........... -->
-<!-- start paging..................................................... -->
-<table border="0" cellpadding="0" cellspacing="0" id="paging-table">
-<tr>
-<td>
-<a href="" class="page-far-left"></a>
-<a href="" class="page-left"></a>
-<div id="page-info">Page <strong>1</strong> / 15</div>
-<a href="" class="page-right"></a>
-<a href="" class="page-far-right"></a>
-</td>
-<td>
-<select class="styledselect_pages">
-<option value="">Number of rows</option>
-<option value="">1</option>
-<option value="">2</option>
-<option value="">3</option>
-</select>
-</td>
-</tr>
-</table>
-<!-- end paging................ -->
+
+<!--  start paging..................................................... -->
+			<table border="0" cellpadding="0" cellspacing="0" id="paging-table" style="display: none">
+			<tr>
+			<td>
+				<a href="javascript:void(0)" class="page-far-left"></a>
+				<a href="javascript:void(0)" class="page-left"></a>
+				<div id="page-info">Page <strong>1</strong> / 15</div>
+				<a href="javascript:void(0)" class="page-right"></a>
+				<a href="javascript:void(0)" class="page-far-right"></a>
+			</td>
+			<td>
+			<select id="nb-collabs-show">
+				<option id="3-c" value="3">3</option>
+                                <option id="5-c" value="5">5</option>
+				<option id="8-c" value="8">8</option>
+			</select>
+			</td>
+			</tr>
+			</table>
+			<!--  end paging................ -->
 <div class="clear"></div>
 </div>
 <!-- end content-table-inner ............................................END -->
