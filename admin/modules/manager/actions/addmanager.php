@@ -116,7 +116,7 @@ if(isset($_POST['submit'])) {
         die();
     }
     $user['hire_date'] = date("Y-m-d");
-    $user['privilege'] = 3;
+    $user['privilege'] = 1;
     $user['last_login'] = date("Y-m-d H:i:s");
     $user['expire_date'] = date("Y-m-d H:i:s", time()+(86400*30));
 
