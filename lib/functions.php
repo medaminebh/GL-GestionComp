@@ -237,6 +237,87 @@ function selectQuery($obj, $table){
         }
 
        break;
+
+       case "cat_competence":
+        $id_cat_competence = intval($obj->getId_CatCompetence());
+        $cat_competence = array(
+                    'id_cat_competence' => isset($id_cat_competence) ? $id_cat_competence : 0,
+                    'nom_cat_competence' => $obj->getNomCatCompetence(),
+                    'description_cat_competence' => $obj->getDescCatCompetence()
+                    );
+        $first = false;
+
+        $sql = "SELECT * FROM ".$table;
+
+        if(isset($cat_competence['id_cat_competence']) && !empty($cat_competence['id_cat_competence']) && intval($cat_competence['id_cat_competence']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_cat_competence = :id_cat_competence';
+        }
+
+        if(isset($cat_competence['nom_cat_competence']) && !empty($cat_competence['nom_cat_competence'])){
+            if($first){
+                $sql.= ' AND nom_cat_competence = :nom_cat_competence';
+            } else {
+                $sql.= ' WHERE nom_cat_competence = :nom_cat_competence';
+                $first = true;
+            }
+        }
+
+        if(isset($cat_competence['description_cat_competence']) && !empty($cat_competence['description_cat_competence'])){
+            if($first){
+                $sql.= ' AND description_cat_competence = :description_cat_competence';
+            } else {
+                $sql.= ' WHERE description_cat_competence = :description_cat_competence';
+                $first = true;
+            }
+        }
+
+       break;
+
+       case "service":
+        $id_service = intval($obj->getId_Service());
+        $service = array(
+                    'id_service' => isset($id_service) ? $id_service : 0,
+                    'nom_service' => $obj->getNomService(),
+                    'date_creation_service' => $obj->getDateCreatService(),
+                    'description_service' => $obj->getDescService()
+                    );
+        $first = false;
+
+        $sql = "SELECT * FROM ".$table;
+
+        if(isset($service['id_service']) && !empty($service['id_service']) && intval($service['id_service']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_service = :id_service';
+        }
+
+       if(isset($service['nom_service']) && !empty($service['nom_service'])){
+            if($first){
+                $sql.= ' AND nom_service = :nom_service';
+            } else {
+                $sql.= ' WHERE nom_service = :nom_service';
+                $first = true;
+            }
+        }
+
+        if(isset($service['date_creation_service']) && !empty($service['date_creation_service'])){
+            if($first){
+                $sql.= ' AND date_creation_service = :date_creation_service';
+            } else {
+                $sql.= ' WHERE date_creation_service = :date_creation_service';
+                $first = true;
+            }
+        }
+
+        if(isset($service['description_service']) && !empty($service['description_service'])){
+            if($first){
+                $sql.= ' AND description_service = :description_service';
+            } else {
+                $sql.= ' WHERE description_service = :description_service';
+                $first = true;
+            }
+        }
+        break;
 	   
     default :
         break;
@@ -286,6 +367,32 @@ function insertQuery($obj, $table){
         $sql.= ' VALUES';
         $sql.= ' (:nom_competence,:description_competence)';
         break;
+
+        case "cat_competence":
+        $cat_competence = array(
+                    'nom_cat_competence' => $obj->getNomCatCompetence(),
+                    'description_cat_competence' => $obj->getDescCatCompetence()
+                    );
+
+        $sql = "INSERT INTO ".$table;
+        $sql.= ' (nom_cat_competence,description_cat_competence)';
+        $sql.= ' VALUES';
+        $sql.= ' (:nom_cat_competence,:description_cat_competence)';
+        break;
+
+    case "service":
+        $service = array(
+                    'nom_service' => $obj->getNomService(),
+                    'date_creation_service' => $obj->getDateCreatService(),
+                    'description_service' => $obj->getDescService()
+                    );
+
+        $sql = "INSERT INTO ".$table;
+        $sql.= ' (nom_service,description_service,date_creation_service)';
+        $sql.= ' VALUES';
+        $sql.= ' (:nom_service,:description_service,:date_creation_service)';
+        break;
+
     default :
         break;
     }
@@ -492,6 +599,72 @@ function updateQuery($obj, $table){
         }
 
         $sql.= " WHERE id_competence = :id_competence";
+       break;
+
+       case "cat_competence":
+        $id_cat_competence = intval($obj->getId_CatCompetence());
+        $cat_competence = array(
+                    'id_cat_competence' => isset($id_cat_competence) ? $id_cat_competence : 0,
+                    'nom_cat_competence' => $obj->getNomCatCompetence(),
+                    'description_cat_competence' => $obj->getDescCatCompetence()
+                    );
+            $first = false;
+
+        $sql = "Update ".$table;
+
+
+        if(isset($cat_competence['nom_cat_competence']) && !empty($cat_competence['nom_cat_competence'])){
+            $first = true;
+            $sql.= ' SET nom_cat_competence = :nom_cat_competence,';
+        }
+
+
+        if(isset($cat_competence['description_cat_competence']) && !empty($cat_competence['description_cat_competence'])){
+            if($first){
+                $sql.= ' description_cat_competence = :description_cat_competence';
+            } else {
+                $sql.= ' SET description_cat_competence = :description_cat_competence';
+                $first = true;
+            }
+        }
+
+        $sql.= " WHERE id_cat_competence = :id_cat_competence";
+       break;
+
+       case "service":
+        $id_service = intval($obj->getId_Service());
+        $service = array(
+                    'id_service' => isset($id_service) ? $id_service : 0,
+                    'nom_service' => $obj->getNomService(),
+                    'date_creation_service' => $obj->getDateCreatService(),
+                    'description_service' => $obj->getDescService()
+                    );
+            $first = false;
+
+        $sql = "Update ".$table;
+
+
+        if(isset($service['nom_service']) && !empty($service['nom_service'])){
+            $first = true;
+            $sql.= ' SET nom_service = :nom_service,';
+        }
+
+
+        if(isset($service['date_creation_service']) && !empty($service['date_creation_service'])){
+            $first = true;
+            $sql.= ' SET date_creation_service = :date_creation_service,';
+        }
+
+        if(isset($service['description_service']) && !empty($service['description_service'])){
+            if($first){
+                $sql.= ' description_service = :description_service';
+            } else {
+                $sql.= ' SET description_service = :description_service';
+                $first = true;
+            }
+        }
+
+        $sql.= " WHERE id_service = :id_service";
        break;
 	   
     default :
@@ -723,6 +896,77 @@ function deleteQuery($obj, $table){
 
 	break;
 
+        case "cat_competence":
+        $id_cat_competence = intval($obj->getId_CatCompetence());
+        $cat_competence = array(
+                    'id_cat_competence' => isset($id_cat_competence) ? $id_cat_competence : 0,
+                    'nom_cat_competence' => $obj->getNomCatCompetence(),
+                    'description_cat_competence' => $obj->getDescCatCompetence()
+                    );
+
+		$sql = "DELETE FROM ".$table;
+
+        if(isset($cat_competence['id_cat_competence']) && !empty($cat_competence['id_cat_competence']) && intval($cat_competence['id_cat_competence']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_cat_competence = :id_cat_competence';
+        }
+
+        if(isset($cat_competence['nom_cat_competence']) && !empty($cat_competence['nom_cat_competence'])){
+            if($first){
+                $sql.= ' AND nom_cat_competence = :nom_cat_competence';
+            } else {
+                $sql.= ' WHERE nom_cat_competence = :nom_cat_competence';
+                $first = true;
+            }
+        }
+
+        if(isset($cat_competence['description_cat_competence']) && !empty($cat_competence['description_cat_competence'])){
+            if($first){
+                $sql.= ' AND description_cat_competence = :description_cat_competence';
+            } else {
+                $sql.= ' WHERE description_cat_competence = :description_cat_competence';
+                $first = true;
+            }
+        }
+
+	break;
+
+        case "service":
+        $id_service = intval($obj->getId_Service());
+        $service = array(
+                    'id_service' => isset($id_service) ? $id_service : 0,
+                    'nom_service' => $obj->getNomService(),
+                    'date_creation_service' => $obj->getDateCreatService(),
+                    'description_service' => $obj->getDescService()
+                    );
+
+        $sql = "DELETE FROM ".$table;
+
+        if(isset($service['id_service']) && !empty($service['id_service']) && intval($service['id_service']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_service = :id_service';
+        }
+
+        if(isset($service['nom_service']) && !empty($service['nom_service'])){
+            if($first){
+                $sql.= ' AND nom_service = :nom_service';
+            } else {
+                $sql.= ' WHERE nom_service = :nom_service';
+                $first = true;
+            }
+        }
+
+        if(isset($service['description_service']) && !empty($service['description_service'])){
+            if($first){
+                $sql.= ' AND description_service = :description_service';
+            } else {
+                $sql.= ' WHERE description_service = :description_service';
+                $first = true;
+            }
+        }
+
+    break;
+
     default :
         break;
     }
@@ -831,7 +1075,48 @@ function bindValQuery($obj, $table, $stmt){
         $stmt->bindParam(':description_competence', $competence['description_competence'], PDO::PARAM_STR);
 
 	break;
-					
+
+        case "cat_competence":
+        $id_cat_competence = intval($obj->getId_CatCompetence());
+        $cat_competence = array(
+                    'id_cat_competence' => isset($id_cat_competence) ? $id_cat_competence : 0,
+                    'nom_cat_competence' => $obj->getNomCatCompetence(),
+                    'description_cat_competence' => $obj->getDescCatCompetence()
+                    );
+
+	if(isset($cat_competence['id_cat_competence']) && !empty($cat_competence['id_cat_competence']) && $cat_competence['id_cat_competence'] > 0 )
+        $stmt->bindValue(':id_cat_competence', $cat_competence['id_cat_competence'], PDO::PARAM_INT);
+
+        if(isset($cat_competence['nom_cat_competence']) && !empty($cat_competence['nom_cat_competence']))
+        $stmt->bindParam(':nom_cat_competence', $cat_competence['nom_cat_competence'], PDO::PARAM_STR);
+
+        if(isset($cat_competence['description_cat_competence']) && !empty($cat_competence['description_cat_competence']))
+        $stmt->bindParam(':description_cat_competence', $cat_competence['description_cat_competence'], PDO::PARAM_STR);
+
+	break;
+
+        case "service":
+            $id_service = intval($obj->getId_Service());
+            $service = array(
+                        'id_service' => isset($id_service) ? $id_service : 0,
+                        'nom_service' => $obj->getNomService(),
+                        'date_creation_service' => $obj->getDateCreatService(),
+                        'description_service' => $obj->getDescService()
+                        );
+
+            if(isset($service['id_service']) && !empty($service['id_service']) && $service['id_service'] > 0 )
+            $stmt->bindValue(':id_service', $service['id_service'], PDO::PARAM_INT);
+
+            if(isset($service['nom_service']) && !empty($service['nom_service']))
+            $stmt->bindParam(':nom_service', $service['nom_service'], PDO::PARAM_STR);
+
+            if(isset($service['date_creation_service']) && !empty($service['date_creation_service']))
+            $stmt->bindParam(':date_creation_service', $service['date_creation_service'], PDO::PARAM_STR);
+
+            if(isset($service['description_service']) && !empty($service['description_service']))
+            $stmt->bindParam(':description_service', $service['description_service'], PDO::PARAM_STR);
+
+        break;
     default :
         break;
     }

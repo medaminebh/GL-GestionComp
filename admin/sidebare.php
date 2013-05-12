@@ -27,13 +27,14 @@
     <ul class="toggle">
         <li class="icn_new_article"><a href="index.php?module=competence&option=add">Ajouter competence</a></li>
         <li class="icn_categories"><a href="index.php?module=competence&option=list">Liste des competences</a></li>
-        <li class="icn_categories"><a href="index.php?module=competence&option=list_cat">Liste des categories</a></li>
+        <li class="icn_new_article"><a href="index.php?module=cat_competence&option=add_cat">Ajouter des categories</a></li>
+        <li class="icn_categories"><a href="index.php?module=cat_competence&option=list_cat">Liste des categories</a></li>
     </ul>
 
     <h3>Services</h3>
     <ul class="toggle">
-        <li class="icn_new_article"><a href="#">Ajouter Service</a></li>
-        <li class="icn_edit_article"><a href="#">Modifier Service</a></li>
+        <li class="icn_new_article"><a href="index.php?module=service&option=add">Ajouter service</a></li>
+        <li class="icn_categories"><a href="index.php?module=service&option=list">Liste des services</a></li>
     </ul>
 </aside>
 <!-- end of sidebar -->
