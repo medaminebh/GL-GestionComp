@@ -19,6 +19,10 @@ if(defined('forservice')){
     include_once "ServiceDAO.class.php";
 }
 
+if(defined('forprojet')){
+    include_once "ProjetDAO.class.php";
+}
+
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -70,6 +74,11 @@ final class DAOFactory {
     public function getServiceDAO() {
         // ServiceDAO implements IServiceDAO
         return ServiceDAO::getServiceDAO();
+    }
+
+    public function getProjetDAO() {
+        // ServiceDAO implements IServiceDAO
+        return ProjetDAO::getProjetDAO();
     }
 }
 ?>

@@ -12,7 +12,8 @@
 
     require_once "../../../../class/business/Projet.php";
 
-    $users_filtre = new Projet(array('nom_projet' => $projet->getNomProjet());
+    $projets_filtre = new Projet(null);
+    
     define('fromajax',true);
     define('forprojet', true);
 
@@ -35,17 +36,17 @@
         $limit = "";
     }
     
-    $projects = DAOFactory::getDAOFactory()->getProjetDAO()->selectProjets($users_filtre, $limit);
+    $projects = DAOFactory::getDAOFactory()->getProjetDAO()->selectProjets($projets_filtre, $limit);
     header("Content-type: text/xml");
     echo "<?xml version='1.0' encoding='utf-8'?>\n";
-    echo "<collabs total=\"".count(DAOFactory::getDAOFactory()->getProjetDAO()->selectProjets($users_filtre, ""))."\">\n";
+    echo "<projects total=\"".count(DAOFactory::getDAOFactory()->getProjetDAO()->selectProjets($projets_filtre, ""))."\">\n";
     foreach ($projects as $project){
         echo "<project>\n";
             echo "<id_projet>".$project["id_projet"]."</id_projet>";
             echo "<nom_projet>".$project["nom_projet"]."</nom_projet>";
             echo "<description_projet>".$project["description_projet"]."</description_projet>";
             echo "<date_creation_projet>".$project["date_creation_projet"]."</date_creation_projet>";
-			echo "<id_service>".$project["id_service"]."</id_service>";
+            echo "<id_service>".$project["id_service"]."</id_service>";
         echo "</project>\n";
      }
      echo "</projects>\n";

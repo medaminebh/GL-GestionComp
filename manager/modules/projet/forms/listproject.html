@@ -41,7 +41,7 @@
                             <div style="float: left;" class="loader"><img src="images/ajax-loader.gif" alt="Loading..." title="Loading..." id="loading" style="display: none" /></div><div style="float: left; margin-left:5px; margin-bottom: 10px;" id="info"></div>
                                 <div class="clear">&nbsp;</div>
                                 <img src="images/arrow-right.jpg" alt="Add This" title="Add This .." id="arrow-right" style="float:right; display: none; opacity: .6; margin: 15px 50px 0 0;" />
-                                <a href="index.php?module=project&option=add" class="addnew" id="addnew" style="left: 48%; display: none;">Cr&eacute;er Nouveau Projet</a>
+                                <a href="index.php?module=project&option=add" class="addnew" id="addnew" style="left: 48%; display: none;">Créer Nouveau Projet</a>
 				<!--  start product-table ..................................................................................... -->
 				<form id="mainform" action="" method="POST" style="display:none">
                                     <table border="0" width="100%" cellpadding="0" cellspacing="0" id="product-table">
@@ -75,9 +75,9 @@
 			</td>
 			<td>
 			<select id="nb-collabs-show">
-				<option id="3-c" value="3">3</option>
-                                <option id="5-c" value="5">5</option>
-				<option id="8-c" value="8">8</option>
+				<option id="nb-collabs-show-c" value="3">3</option>
+                                <option id="nb-collabs-show-c" value="5">5</option>
+				<option id="nb-collabs-show-c" value="8">8</option>
 			</select>
 			</td>
 			</tr>
@@ -104,8 +104,8 @@
 <div class="clear">&nbsp;</div>
 </div>
 <script type="text/javascript">
-    $("#"+$.cookie('nb-projects-show')+"-c").attr("selected", "selected");
-    $.cookie("nb-projects-show", $('#nb-projects-show').val(),{expires: 30,path: '/'});
+    $("#"+$.cookie('nb-collabs-show')+"-c").attr("selected", "selected");
+    $.cookie("nb-collabs-show", $('#nb-collabs-show').val(),{expires: 30,path: '/'});
     $.cookie("begin", 0,{expires: 30,path: '/'});
     if($.cookie("fromeditpage") == "true") {
         $.cookie("fromeditpage", "false",{expires: 30,path: '/'});
@@ -114,117 +114,117 @@
     }
     
         $(".page-right").click(function(){
-            if($.cookie("nb-projects-show") == 3) {
+            if($.cookie("nb-collabs-show") == 3) {
                 $.cookie("begin", (parseInt($.cookie("begin"))+3),{expires: 30,path: '/'});
                 var maxlist = Math.ceil(parseInt($.cookie("total-projects"))/3);
                 if(parseInt($.cookie("total-projects")) > parseInt($.cookie("begin"))){
                     $.cookie("list", (parseInt($.cookie("list")) < maxlist) ? (parseInt($.cookie("list"))+1) : maxlist,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }else {
                     $.cookie("begin", (parseInt($.cookie("begin"))-3),{expires: 30,path: '/'});
                 }
-            }else if($.cookie("nb-projects-show") == 5) {
+            }else if($.cookie("nb-collabs-show") == 5) {
                 $.cookie("begin", (parseInt($.cookie("begin"))+5),{expires: 30,path: '/'});
                 var maxlist = Math.ceil(parseInt($.cookie("total-projects"))/5);
                 if(parseInt($.cookie("total-projects")) > parseInt($.cookie("begin"))){
                     $.cookie("list", (parseInt($.cookie("list")) < maxlist) ? (parseInt($.cookie("list"))+1) : maxlist,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }else {
                     $.cookie("begin", (parseInt($.cookie("begin"))-5),{expires: 30,path: '/'});
                 }
-            }else if($.cookie("nb-projects-show") == 8) {
+            }else if($.cookie("nb-collabs-show") == 8) {
                 $.cookie("begin", (parseInt($.cookie("begin"))+8),{expires: 30,path: '/'});
                 var maxlist = Math.ceil(parseInt($.cookie("total-projects"))/8);
                 if(parseInt($.cookie("total-projects")) > parseInt($.cookie("begin"))){
                     $.cookie("list", (parseInt($.cookie("list")) < maxlist) ? (parseInt($.cookie("list"))+1) : maxlist,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
             }   }else {
                     $.cookie("begin", (parseInt($.cookie("begin"))-8),{expires: 30,path: '/'});
                 }
         });
 
         $(".page-left").click(function(){
-            if($.cookie("nb-projects-show") == 3) {
+            if($.cookie("nb-collabs-show") == 3) {
                 $.cookie("begin", parseInt($.cookie("begin")) > 0 ? (parseInt($.cookie("begin"))-3) : -1,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) >= 0){
                     $.cookie("list", (parseInt($.cookie("list")) > 1) ? (parseInt($.cookie("list"))-1) : 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }else {
                     $.cookie("begin", 0,{expires: 30,path: '/'});
                 }
-            }else if($.cookie("nb-projects-show") == 5) {
+            }else if($.cookie("nb-collabs-show") == 5) {
                 $.cookie("begin", parseInt($.cookie("begin")) > 0 ? (parseInt($.cookie("begin"))-5) : -1,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) >= 0){
                     $.cookie("list", (parseInt($.cookie("list")) > 1) ? (parseInt($.cookie("list"))-1) : 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }else {
                     $.cookie("begin", 0,{expires: 30,path: '/'});
                 }
-            }else if($.cookie("nb-projects-show") == 8) {
+            }else if($.cookie("nb-collabs-show") == 8) {
                 $.cookie("begin", parseInt($.cookie("begin")) > 0 ? (parseInt($.cookie("begin"))-8) : -1,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) >= 0){
                     $.cookie("list", (parseInt($.cookie("list")) > 1) ? (parseInt($.cookie("list"))-1) : 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
             }   }else {
                     $.cookie("begin", 0,{expires: 30,path: '/'});
                 }
         });
 
         $(".page-far-right").click(function(){
-            if($.cookie("nb-projects-show") == 3) {
+            if($.cookie("nb-collabs-show") == 3) {
                 var rest = parseInt($.cookie("total-projects")) % 3;
                 var list = Math.ceil(parseInt($.cookie("total-projects"))/3);
                 $.cookie("begin", rest != 0 ? (parseInt($.cookie("total-projects"))- rest) : (parseInt($.cookie("total-projects"))- 3) ,{expires: 30,path: '/'});
                 if((parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- rest) || parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- 3)) && parseInt($.cookie("list")) != list){
                     $.cookie("list", list,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
-            }else if($.cookie("nb-projects-show") == 5) {
+            }else if($.cookie("nb-collabs-show") == 5) {
                 var rest = parseInt($.cookie("total-projects")) % 5;
                 var list = Math.ceil(parseInt($.cookie("total-projects"))/5);
                 $.cookie("begin", rest != 0 ? (parseInt($.cookie("total-projects"))- rest) : (parseInt($.cookie("total-projects"))- 5) ,{expires: 30,path: '/'});
                 if((parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- rest) || parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- 5)) && parseInt($.cookie("list")) != list){
                     $.cookie("list", list,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
-            }else if($.cookie("nb-projects-show") == 8) {
+            }else if($.cookie("nb-collabs-show") == 8) {
                 var rest = parseInt($.cookie("total-projects")) % 8;
                 var list = Math.ceil(parseInt($.cookie("total-projects"))/8);
                 $.cookie("begin", rest != 0 ? (parseInt($.cookie("total-projects"))- rest) : (parseInt($.cookie("total-projects"))- 8) ,{expires: 30,path: '/'});
                 if((parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- rest) || parseInt($.cookie("begin")) == (parseInt($.cookie("total-projects"))- 8)) && parseInt($.cookie("list")) != list){
                     $.cookie("list", list,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
             }
         });
 
         $(".page-far-left").click(function(){
-            if($.cookie("nb-projects-show") == 3) {
+            if($.cookie("nb-collabs-show") == 3) {
                 $.cookie("begin", 0,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) == 0 && parseInt($.cookie("list")) != 1){
                     $.cookie("list", 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
-            }else if($.cookie("nb-projects-show") == 5) {
+            }else if($.cookie("nb-collabs-show") == 5) {
                 $.cookie("begin", 0,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) == 0 && parseInt($.cookie("list")) != 1){
                     $.cookie("list", 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
-            }else if($.cookie("nb-projects-show") == 8) {
+            }else if($.cookie("nb-collabs-show") == 8) {
                 $.cookie("begin", 0,{expires: 30,path: '/'});
                 if(parseInt($.cookie("begin")) == 0 && parseInt($.cookie("list")) != 1){
                     $.cookie("list", 1,{expires: 30,path: '/'});
-                    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+                    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
                 }
             }
         });
 
-        $("#nb-projects-show").change(function(){
-            $.cookie("nb-projects-show", $('#nb-projects-show').val(),{expires: 30,path: '/'});
+        $("#nb-collabs-show").change(function(){
+            $.cookie("nb-collabs-show", $('#nb-collabs-show').val(),{expires: 30,path: '/'});
             $.cookie("begin", 0,{expires: 30,path: '/'});
             $.cookie("list", 1,{expires: 30,path: '/'});
-            loadProjects(0, $.cookie("nb-projects-show"));
+            loadProjects(0, $.cookie("nb-collabs-show"));
         });
 
     function loadProjects(begin, limit) {
@@ -234,7 +234,7 @@
 
         $.ajax({
                 type: "GET",
-                url: "manager/modules/project/actions/listproject.php",
+                url: "manager/modules/projet/actions/listproject.php",
                 contentType: "text/xml; charset=utf-8",
                 data: dataString,
                 cache: false,
@@ -242,7 +242,7 @@
                     var hasChildren = ($(xml).children('projects').length > 0 && $(xml).find('projects').attr('total')!=0);
                         if (hasChildren) {
                             $("#mainform").fadeIn("fast");
-                            $("#page-info").html("Page <strong>"+$.cookie("list")+"</strong> / "+Math.ceil($(xml).find('projects').attr('total')/$.cookie("nb-projects-show")));
+                            $("#page-info").html("Page <strong>"+$.cookie("list")+"</strong> / "+Math.ceil($(xml).find('projects').attr('total')/$.cookie("nb-collabs-show")));
                             reloadProjectHeader();
                             var i = 1;
                             $(xml).find("project").each(function() {
@@ -256,7 +256,7 @@
                                 tr+= "<td>"+$(this).find('id_projet').text()+"</td>";
                                 tr+= "<td>"+$(this).find('nom_projet').text()+"</td>";
                                 tr+= "<td>"+$(this).find('description_projet').text()+"</td>";
-                                tr+= "<td>"+$(this).find('date_creation__projet').text()+"</td>";
+                                tr+= "<td>"+$(this).find('date_creation_projet').text()+"</td>";
                                 tr+= "<td class=\"options-width\">";
                                 tr+= "<a href=\"index.php?module=project&option=edit\" title=\"Edit\" class=\"icon-1 info-tooltip\" onClick=\"$.cookie('projecttoedit', parseInt("+$(this).find('id_projet').text()+"),{expires: 30,path: '/'});\"></a>";
 				tr+= "<a href=\"index.php?module=project&option=delete\" title=\"Delete\" class=\"icon-2 info-tooltip\" onClick=\"$.cookie('projecttodelete', parseInt("+$(this).find('id_projet').text()+"),{expires: 30,path: '/'});\"></a>";
@@ -311,16 +311,11 @@
     function reloadProjectHeader(){
         var tabheader = '<tr>';
             tabheader+= '<th class="table-header-check"><a id="toggle-all" ></a> </th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 40px;"><a href="">Id</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 40px;"><a href="">Nom</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 70px;"><a href="">Prenom</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="width: 66px;"><a href="">Genre</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 90px;"><a href="">E-mail</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 85px;"><a href="">Hire Date</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 135px;"><a href="">Last Login</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 135px;"><a href="">Expire date</a></th>';
-            tabheader+= '<th class="table-header-repeat line-left" style="min-width: 65px;"><a href="">State</a></th>';
-            tabheader+= '<th class="table-header-options line-left" style="width: 80px;min-width: 80px;"><a href="">Options</a></th>';
+            tabheader+= '<th class="table-header-repeat line-left" style="width: 80px;"><a href="">Id-Projet</a></th>';
+            tabheader+= '<th class="table-header-repeat line-left" style="width: 250px;"><a href="">Nom-Projet</a></th>';
+            tabheader+= '<th class="table-header-repeat line-left" style="width: 250px;"><a href="">Description</a></th>';
+            tabheader+= '<th class="table-header-repeat line-left" style="width: 120px;"><a href="">Date Création</a></th>';
+            tabheader+= '<th class="table-header-options line-left" style="width: 66px;min-width: 80px;"><a href="">Options</a></th>';
             tabheader+= '</tr>';
             $("#product-table").html(tabheader).hide().fadeIn("fast");
     }
@@ -357,5 +352,5 @@
     });
 
     $("#content-outer").height($("#sidebar").height());
-    loadProjects($.cookie("begin"), $.cookie("nb-projects-show"));
+    loadProjects($.cookie("begin"), $.cookie("nb-collabs-show"));
 </script>

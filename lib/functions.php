@@ -318,6 +318,62 @@ function selectQuery($obj, $table){
             }
         }
         break;
+    
+        case "projet":
+        $id_projet = intval($obj->getId_Projet());
+        $projet = array(
+                    'id_projet' => isset($id_projet) ? $id_projet : 0,
+                    'nom_projet' => $obj->getNomProjet(),
+                    'description_projet' => $obj->getDescProjet(),
+                    'date_creation_projet' => $obj->getDateCreationProjet(),
+                    'id_service' => $obj->getId_ServiceProjet()
+                    );
+        $first = false;
+
+        $sql = "SELECT * FROM ".$table;
+
+        if(isset($projet['id_projet']) && !empty($projet['id_projet']) && intval($projet['id_projet']) > 0 ){
+        $first = true;
+        $sql.= ' WHERE id_projet = :id_projet';
+        }
+
+        if(isset($projet['nom_projet']) && !empty($projet['nom_projet'])){
+            if($first){
+                $sql.= ' AND nom_projet = :nom_projet';
+            } else {
+                $sql.= ' WHERE nom_projet = :nom_projet';
+                $first = true;
+            }
+        }
+        
+        if(isset($projet['description_projet']) && !empty($projet['description_projet'])){
+            if($first){
+                $sql.= ' AND description_projet = :description_projet';
+            } else {
+                $sql.= ' WHERE description_projet = :description_projet';
+                $first = true;
+            }
+        }
+
+        if(isset($projet['date_creation_projet']) && !empty($projet['date_creation_projet'])){
+            if($first){
+                $sql.= ' AND date_creation_projet = :date_creation_projet';
+            } else {
+                $sql.= ' WHERE date_creation_projet = :date_creation_projet';
+                $first = true;
+            }
+        }
+
+        if(isset($projet['id_service']) && !empty($projet['id_service']) && intval($projet['id_service']) > 0 ){
+            if($first){
+                $sql.= ' AND id_service = :id_service';
+            } else {
+                $sql.= ' WHERE id_service = :id_service';
+                $first = true;
+            }
+        }
+
+       break;   
 	   
     default :
         break;
@@ -391,6 +447,18 @@ function insertQuery($obj, $table){
         $sql.= ' (nom_service,description_service,date_creation_service)';
         $sql.= ' VALUES';
         $sql.= ' (:nom_service,:description_service,:date_creation_service)';
+        break;
+
+    case "projet":
+        $projet = array(
+                    'nom_projet' => $obj->getNomProjet(),
+                    'description_projet' => $obj->getDescProjet()
+                    );
+
+        $sql = "INSERT INTO ".$table;
+        $sql.= ' (nom_projet,description_projet, date_creation_projet, id_service)';
+        $sql.= ' VALUES';
+        $sql.= ' (:nom_projet,:description_projet, :date_creation_projet, :id_service)';
         break;
 
     default :
@@ -649,12 +717,6 @@ function updateQuery($obj, $table){
             $sql.= ' SET nom_service = :nom_service,';
         }
 
-
-        if(isset($service['date_creation_service']) && !empty($service['date_creation_service'])){
-            $first = true;
-            $sql.= ' SET date_creation_service = :date_creation_service,';
-        }
-
         if(isset($service['description_service']) && !empty($service['description_service'])){
             if($first){
                 $sql.= ' description_service = :description_service';
@@ -666,6 +728,36 @@ function updateQuery($obj, $table){
 
         $sql.= " WHERE id_service = :id_service";
        break;
+
+       case "projet":
+            $id_projet = intval($obj->getId_Projet());
+            $projet = array(
+                        'id_projet' => isset($id_projet) ? $id_projet : 0,
+                        'nom_projet' => $obj->getNomProjet(),
+                        'description_projet' => $obj->getDescProjet(),
+                        'date_creation_projet' => $obj->getDateCreationProjet(),
+                        'id_service' => $obj->getId_ServiceProjet()
+                        );
+            $first = false;
+
+            $sql = "Update ".$table;
+
+            if(isset($projet['nom_projet']) && !empty($projet['nom_projet'])){
+                $first = true;
+                $sql.= ' SET nom_projet = :nom_projet,';
+            }
+
+            if(isset($projet['description_projet']) && !empty($projet['description_projet'])){
+                if($first){
+                    $sql.= ' description_projet = :description_projet';
+                } else {
+                    $sql.= ' SET description_projet = :description_projet';
+                    $first = true;
+                }
+            }
+
+            $sql.= " WHERE id_projet = :id_projet";
+            break;
 	   
     default :
         break;
@@ -932,35 +1024,72 @@ function deleteQuery($obj, $table){
 	break;
 
         case "service":
-        $id_service = intval($obj->getId_Service());
-        $service = array(
-                    'id_service' => isset($id_service) ? $id_service : 0,
-                    'nom_service' => $obj->getNomService(),
-                    'date_creation_service' => $obj->getDateCreatService(),
-                    'description_service' => $obj->getDescService()
-                    );
+            $id_service = intval($obj->getId_Service());
+            $service = array(
+                        'id_service' => isset($id_service) ? $id_service : 0,
+                        'nom_service' => $obj->getNomService(),
+                        'date_creation_service' => $obj->getDateCreatService(),
+                        'description_service' => $obj->getDescService()
+                        );
+
+            $sql = "DELETE FROM ".$table;
+
+            if(isset($service['id_service']) && !empty($service['id_service']) && intval($service['id_service']) > 0 ){
+            $first = true;
+            $sql.= ' WHERE id_service = :id_service';
+            }
+
+            if(isset($service['nom_service']) && !empty($service['nom_service'])){
+                if($first){
+                    $sql.= ' AND nom_service = :nom_service';
+                } else {
+                    $sql.= ' WHERE nom_service = :nom_service';
+                    $first = true;
+                }
+            }
+
+            if(isset($service['description_service']) && !empty($service['description_service'])){
+                if($first){
+                    $sql.= ' AND description_service = :description_service';
+                } else {
+                    $sql.= ' WHERE description_service = :description_service';
+                    $first = true;
+                }
+            }
+
+        break;
+
+        case "projet":
+        $id_projet = intval($obj->getId_Projet());
+            $projet = array(
+                        'id_projet' => isset($id_projet) ? $id_projet : 0,
+                        'nom_projet' => $obj->getNomProjet(),
+                        'description_projet' => $obj->getDescProjet(),
+                        'date_creation_projet' => $obj->getDateCreationProjet(),
+                        'id_service' => $obj->getId_ServiceProjet()
+                        );
 
         $sql = "DELETE FROM ".$table;
 
-        if(isset($service['id_service']) && !empty($service['id_service']) && intval($service['id_service']) > 0 ){
+        if(isset($projet['id_projet']) && !empty($projet['id_projet']) && intval($projet['id_projet']) > 0 ){
         $first = true;
-        $sql.= ' WHERE id_service = :id_service';
+        $sql.= ' WHERE id_projet = :id_projet';
         }
 
-        if(isset($service['nom_service']) && !empty($service['nom_service'])){
+        if(isset($projet['nom_projet']) && !empty($projet['nom_projet'])){
             if($first){
-                $sql.= ' AND nom_service = :nom_service';
+                $sql.= ' AND nom_projet = :nom_projet';
             } else {
-                $sql.= ' WHERE nom_service = :nom_service';
+                $sql.= ' WHERE nom_projet = :nom_projet';
                 $first = true;
             }
         }
 
-        if(isset($service['description_service']) && !empty($service['description_service'])){
+        if(isset($projet['description_projet']) && !empty($projet['description_projet'])){
             if($first){
-                $sql.= ' AND description_service = :description_service';
+                $sql.= ' AND description_projet = :description_projet';
             } else {
-                $sql.= ' WHERE description_service = :description_service';
+                $sql.= ' WHERE description_projet = :description_projet';
                 $first = true;
             }
         }
@@ -1117,6 +1246,34 @@ function bindValQuery($obj, $table, $stmt){
             $stmt->bindParam(':description_service', $service['description_service'], PDO::PARAM_STR);
 
         break;
+    
+        case "projet":
+        $id_projet = intval($obj->getId_Projet());
+        $projet = array(
+                    'id_projet' => isset($id_projet) ? $id_projet : 0,
+                    'nom_projet' => $obj->getNomProjet(),
+                    'description_projet' => $obj->getDescProjet(),
+                    'date_creation_projet' => $obj->getDateCreationProjet(),
+                    'id_service' => $obj->getId_ServiceProjet()
+                    );
+
+	if(isset($projet['id_projet']) && !empty($projet['id_projet']) && $projet['id_projet'] > 0 )
+        $stmt->bindValue(':id_projet', $projet['id_projet'], PDO::PARAM_INT);
+
+        if(isset($projet['nom_projet']) && !empty($projet['nom_projet']))
+        $stmt->bindParam(':nom_projet', $projet['nom_projet'], PDO::PARAM_STR);
+
+        if(isset($projet['description_projet']) && !empty($projet['description_projet']))
+        $stmt->bindParam(':description_projet', $projet['description_projet'], PDO::PARAM_STR);
+
+        if(isset($projet['date_creation_projet']) && !empty($projet['date_creation_projet']))
+        $stmt->bindParam(':date_creation_projet', $projet['date_creation_projet'], PDO::PARAM_STR);
+
+        if(isset($projet['id_service']) && !empty($projet['id_service']))
+        $stmt->bindParam(':id_service', $projet['id_service'], PDO::PARAM_INT);
+
+	break;
+        
     default :
         break;
     }

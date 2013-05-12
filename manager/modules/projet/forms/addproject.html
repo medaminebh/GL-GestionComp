@@ -52,10 +52,6 @@
                                                     <td><textarea name ="desc" rows="3" cols="" class="form-textarea" required="required"></textarea></td>
                                                     <td></td>
                                                 </tr>
-                                                <tr>
-                                                    <th valign="top">Date de création :</th>
-                                                    <td><input name="date_cr" type="date"  required="required"/></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                      </fieldset>
@@ -92,18 +88,16 @@ $('#add-project').submit(function(){
         $("#content-outer").height($("#sidebar").height());
         var project = new Array(
                     $("input[name=nom]").val(),
-                    $("textarea[name=desc]").val(),
-                    $("input[name=date_cr]").val()
+                    $("textarea[name=desc]").val()
                 );
     var dataString = 'nom_projet='+ project[0]
                      + '&description_projet=' + project[1]
-                     + '&date_creation_projet=' + project[2]
                      + '&submit=true'
                      ;
 
         $.ajax({
                 type: "POST",
-                url: "manager/modules/projet/actions/addprojet.php",
+                url: "manager/modules/projet/actions/addproject.php",
                 data: dataString,
                 cache: false,
                 success: function (a) {
